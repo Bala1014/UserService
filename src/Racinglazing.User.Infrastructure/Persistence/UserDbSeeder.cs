@@ -12,6 +12,7 @@ namespace Racinglazing.User.Infrastructure.Persistence;
 /// </summary>
 public static class UserDbSeeder
 {
+    // todo add seed data, for dummy user.
     public static async Task SeedAsync(UserDbContext db, CancellationToken ct = default)
     {
         var existing = await db.Roles.Select(r => r.NormalizedName).ToListAsync(ct);
