@@ -12,7 +12,7 @@ namespace Racinglazing.User.Api.Controllers;
 /// rotation. Only meaningful for RS256; for HS256 there is nothing to publish.
 /// </summary>
 [ApiController]
-public sealed class DiscoveryController(
+public class DiscoveryController(
     IJwtKeyProvider keyProvider,
     IOptions<JwtOptions> jwtOptions) : ControllerBase
 {

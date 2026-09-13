@@ -9,7 +9,7 @@ namespace Racinglazing.User.Api.Controllers;
 /// endpoints in the platform — everything else verifies a token minted here.
 /// </summary>
 [Route("api/v1/auth")]
-public sealed class AuthController(IAuthService auth) : ApiControllerBase
+public class AuthController(IAuthService auth) : ApiControllerBase
 {
     /// <summary>Registers a new account and returns an initial token pair.</summary>
     [HttpPost("register")]

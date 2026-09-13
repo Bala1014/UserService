@@ -6,7 +6,7 @@ using Racinglazing.User.Application.Features.Users;
 namespace Racinglazing.User.Api.Controllers;
 
 [Route("api/v1/users")]
-public sealed class UsersController(IUserService users) : ApiControllerBase
+public class UsersController(IUserService users) : ApiControllerBase
 {
     /// <summary>Returns the authenticated user's own profile.</summary>
     [Authorize]
@@ -39,4 +39,4 @@ public sealed class UsersController(IUserService users) : ApiControllerBase
 }
 
 /// <summary>Ids to resolve in a batch lookup.</summary>
-public sealed record BatchUsersRequest(IReadOnlyList<Guid> Ids);
+public record BatchUsersRequest(IReadOnlyList<Guid> Ids);
