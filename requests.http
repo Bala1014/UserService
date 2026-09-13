@@ -1,0 +1,83 @@
+@host = http://localhost:5002
+@contentType = application/json
+
+### Register
+# @name register
+POST {{host}}/api/v1/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "ada@example.com",
+  "username": "ada",
+  "password": "Password123",
+  "confirmPassword": "Password123"
+}
+
+### Login (email or username)
+# @name login
+POST {{host}}/api/v1/auth/login
+Content-Type: {{contentType}}
+
+{
+  "emailOrUsername": "ada",
+  "password": "Password123"
+}
+
+### Current user (uses the access token from login)
+GET {{host}}/api/v1/users/me
+Authorization: Bearer {{login.response.body.data.accessToken}}
+
+### Update profile
+PUT {{host}}/api/v1/users/me
+Content-Type: {{contentType}}
+Authorization: Bearer {{login.response.body.data.accessToken}}
+
+{
+  "displayName": "Ada Lovelace",
+  "avatarUrl": "https://example.com/ada.png",
+  "bio": "Countess of computing."
+}
+
+### Refresh (rotates the token pair)
+POST {{host}}/api/v1/auth/refresh
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{login.response.body.data.refreshToken}}"
+}
+
+### Logout
+POST {{host}}/api/v1/auth/logout
+Content-Type: {{contentType}}
+
+{
+  "refreshToken": "{{login.response.body.data.refreshToken}}"
+}
+
+### Google sign-in (needs a real Google id_token; requires Google:ClientId configured)
+POST {{host}}/api/v1/auth/google
+Content-Type: {{contentType}}
+
+{
+  "idToken": "<google-id-token>"
+}
+
+### Public user reference
+GET {{host}}/api/v1/users/{{register.response.body.data.user.id}}
+
+### Batch lookup (what Forum/Race call to enrich author display data)
+POST {{host}}/api/v1/users/batch
+Content-Type: {{contentType}}
+
+{
+  "ids": [ "{{register.response.body.data.user.id}}" ]
+}
+
+### OIDC discovery
+GET {{host}}/.well-known/openid-configuration
+
+### JWKS (public signing keys; populated when Jwt:Algorithm = RS256)
+GET {{host}}/.well-known/jwks.json
+
+### Health
+GET {{host}}/health/ready

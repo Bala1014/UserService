@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Racinglazing.User.Api/Racinglazing.User.Api.csproj" />
+    <Project Path="src/Racinglazing.User.Application/Racinglazing.User.Application.csproj" />
+    <Project Path="src/Racinglazing.User.Domain/Racinglazing.User.Domain.csproj" />
+    <Project Path="src/Racinglazing.User.Infrastructure/Racinglazing.User.Infrastructure.csproj" />
+  </Folder>
+</Solution>
