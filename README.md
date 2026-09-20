@@ -133,7 +133,20 @@ calls `POST /api/v1/users/batch` here — the returned
 | `Auth:RefreshTokenLifetimeDays` | refresh-token TTL (default 14) |
 | `Auth:ExternalAutoProvision` | create an account on first Google sign-in |
 | `Google:ClientId` | Google OAuth client id (enables Google sign-in) |
-| `Cors:AllowedOrigins` | allowed browser origins |
+| `CORS_ALLOWED_ORIGINS` | comma-separated trusted browser origins; for example `https://raceservice-frontend-dev-dot-racingglazing.de.r.appspot.com` |
+| `Cors:AllowedOrigins` | alternative hierarchical configuration-array key for trusted browser origins |
+
+CORS is enabled only for configured origins. It allows `GET`, `POST`, `PUT`,
+`PATCH`, `DELETE`, and preflight `OPTIONS`, with `Content-Type` and
+`Authorization` request headers. It does not enable credentialed CORS; bearer
+tokens continue to work through the `Authorization` header. For Cloud Run, set:
+
+```text
+CORS_ALLOWED_ORIGINS=https://raceservice-frontend-dev-dot-racingglazing.de.r.appspot.com
+```
+
+Add production frontend origins as comma-separated values. Do not use `*`.
+When set, `CORS_ALLOWED_ORIGINS` takes precedence over `Cors:AllowedOrigins`.
 
 ## Security notes
 
