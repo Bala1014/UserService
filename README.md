@@ -145,7 +145,13 @@ tokens continue to work through the `Authorization` header. For Cloud Run, set:
 CORS_ALLOWED_ORIGINS=https://raceservice-frontend-dev-dot-racingglazing.de.r.appspot.com
 ```
 
-Add production frontend origins as comma-separated values. Do not use `*`.
+To explicitly configure both deployed frontends, use:
+
+```text
+CORS_ALLOWED_ORIGINS=https://raceservice-frontend-dev-dot-racingglazing.de.r.appspot.com,https://raceservice-frontend-dot-racingglazing.de.r.appspot.com
+```
+
+Add future frontend origins as comma-separated values. Do not use `*`.
 When set, `CORS_ALLOWED_ORIGINS` takes precedence over `Cors:AllowedOrigins`.
 
 ## Security notes
