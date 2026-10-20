@@ -54,8 +54,8 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --service-account raceservice-runtime@$PROJECT_ID.iam.gserviceaccount.com \
-            --add-cloudsql-instances racingglazing-510419:asia-south1:raceservice-postgres \
-            --set-env-vars ConnectionStrings__UserDatabase="Host=/cloudsql/racingglazing-510419:asia-south1:raceservice-postgres;Database=userservice;Username=userserviceuser;Password=${{ secrets.POSTGRES_PASSWORD }}"
+            --add-cloudsql-instances $PROJECT_ID:asia-south1:raceservice-postgres \
+            --set-env-vars ConnectionStrings__UserDatabase="Host=/cloudsql/$PROJECT_ID:asia-south1:raceservice-postgres;Database=userservice;Username=userserviceuser;Password=${{ secrets.POSTGRES_PASSWORD }}"
 
       - name: Get Production URL
         id: prod-url
