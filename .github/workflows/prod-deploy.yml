@@ -37,17 +37,17 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build \
-            -t asia-south1-docker.pkg.dev/$PROJECT_ID/app-images/$SERVICE:${GITHUB_SHA} .
+            -t asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA} .
 
       - name: Push Docker Image
         run: |
           docker push \
-            asia-south1-docker.pkg.dev/$PROJECT_ID/app-images/$SERVICE:${GITHUB_SHA}
+            asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA}
 
       - name: Deploy Production Service
         run: |
           gcloud run deploy $SERVICE \
-            --image asia-south1-docker.pkg.dev/$PROJECT_ID/app-images/$SERVICE:${GITHUB_SHA} \
+            --image asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA} \
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
