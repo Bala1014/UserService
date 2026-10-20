@@ -9,6 +9,7 @@ env:
   PROJECT_ID: racingglazing-510419
   REGION: asia-south1
   SERVICE: userservice
+  AR_REPO: raceservice   # artrifact repository name
 
 jobs:
   deploy-prod:
@@ -32,27 +33,29 @@ jobs:
 
       - name: Configure Docker
         run: |
-          gcloud auth configure-docker asia-south1-docker.pkg.dev
+          gcloud auth configure-docker $REGION-docker.pkg.dev
 
       - name: Build Docker Image
         run: |
           docker build \
-            -t asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA} .
+            -t $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE:${GITHUB_SHA} .
 
       - name: Push Docker Image
         run: |
           docker push \
-            asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA}
+            $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE:${GITHUB_SHA}
 
       - name: Deploy Production Service
         run: |
           gcloud run deploy $SERVICE \
-            --image asia-south1-docker.pkg.dev/raceservice/app-images/$SERVICE:${GITHUB_SHA} \
+            --project $PROJECT_ID \
+            --image $REGION-docker.pkg.dev/$PROJECT_ID/$AR_REPO/$SERVICE:${GITHUB_SHA} \
             --region $REGION \
             --platform managed \
             --allow-unauthenticated \
+            --service-account raceservice-runtime@$PROJECT_ID.iam.gserviceaccount.com \
             --add-cloudsql-instances racingglazing-510419:asia-south1:raceservice-postgres \
-            --set-env-vars ConnectionStrings__UserDatabase="Host=/cloudsql/racingglazing-510419:asia-south1:raceservice-postgres;Database=userservice;Username=userservice;Password=${{ secrets.POSTGRES_PASSWORD }}"
+            --set-env-vars ConnectionStrings__UserDatabase="Host=/cloudsql/racingglazing-510419:asia-south1:raceservice-postgres;Database=userservice;Username=userserviceuser;Password=${{ secrets.POSTGRES_PASSWORD }}"
 
       - name: Get Production URL
         id: prod-url
