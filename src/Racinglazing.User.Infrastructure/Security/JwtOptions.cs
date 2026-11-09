@@ -37,4 +37,10 @@ public sealed class JwtOptions
 
     /// <summary>Optional stable key id surfaced in the JWT header and JWKS.</summary>
     public string? KeyId { get; set; }
+
+    /// <summary>
+    /// Public HTTPS address used in OIDC discovery metadata. This is needed
+    /// behind a reverse proxy, where the application request itself is HTTP.
+    /// </summary>
+    public string? PublicBaseUrl { get; set; }
 }
