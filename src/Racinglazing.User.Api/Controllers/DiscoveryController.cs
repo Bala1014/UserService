@@ -22,7 +22,12 @@ public class DiscoveryController(
     [HttpGet("/.well-known/openid-configuration")]
     public IActionResult OpenIdConfiguration()
     {
-        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+        // Cloud Run terminates TLS before forwarding to the container, making
+        // Request.Scheme appear as HTTP. Consumers must receive HTTPS JWKS
+        // and endpoint URLs, so production config supplies the public origin.
+        var baseUrl = string.IsNullOrWhiteSpace(_jwt.PublicBaseUrl)
+            ? $"{Request.Scheme}://{Request.Host}"
+            : _jwt.PublicBaseUrl.TrimEnd('/');
         return Ok(new Dictionary<string, object>
         {
             ["issuer"] = _jwt.Issuer,
